@@ -6,3 +6,16 @@
 config.mak
 lib/musl-gcc.specs
 /obj/
+
+halvm-ar
+halvm-ranlib
+crt/halvm
+src/fenv/halvm
+src/math/halvm
+src/process/halvm
+src/setjmp/halvm
+src/signal/halvm
+src/string/halvm
+arch/halvm/bits
+arch/halvm/reloc.h
+arch/halvm/atomic_arch.h

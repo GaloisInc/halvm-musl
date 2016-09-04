@@ -311,6 +311,7 @@ printf "%s\n" "$target"
 #
 case "$target" in
 # Catch these early to simplify matching for 32-bit archs
+halvm*) ARCH=halvm ;;
 arm*) ARCH=arm ;;
 aarch64*) ARCH=aarch64 ;;
 i?86-nt32*) ARCH=nt32 ;;
