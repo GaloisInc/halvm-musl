@@ -8,6 +8,9 @@
 #define __SYSCALL_LL_O(x) __SYSCALL_LL_E((x))
 #endif
 
+#define __NEED_size_t
+#include <bits/alltypes.h>
+
 long halvm_syscall_read(long, long, long, long, long, long, long);
 long halvm_syscall_write(long, long, long, long, long, long, long);
 long halvm_syscall_open(long, long, long, long, long, long, long);
@@ -37,9 +40,9 @@ long halvm_syscall_mremap(long, long, long, long, long, long, long);
 long halvm_syscall_msync(long, long, long, long, long, long, long);
 long halvm_syscall_mincore(long, long, long, long, long, long, long);
 long halvm_syscall_madvise(long, long, long, long, long, long, long);
-long halvm_syscall_shmget(long, long, long, long, long, long, long);
-long halvm_syscall_shmat(long, long, long, long, long, long, long);
-long halvm_syscall_shmctl(long, long, long, long, long, long, long);
+long halvm_syscall_shmget(int, size_t, int);
+long halvm_syscall_shmat(int, void*, int);
+long halvm_syscall_shmctl(int, int, void*);
 long halvm_syscall_dup(long, long, long, long, long, long, long);
 long halvm_syscall_dup2(long, long, long, long, long, long, long);
 long halvm_syscall_pause(long, long, long, long, long, long, long);
@@ -67,19 +70,19 @@ long halvm_syscall_getsockopt(long, long, long, long, long, long, long);
 long halvm_syscall_clone(long, long, long, long, long, long, long);
 long halvm_syscall_fork(long, long, long, long, long, long, long);
 long halvm_syscall_vfork(long, long, long, long, long, long, long);
-long halvm_syscall_execve(long, long, long, long, long, long, long);
+long halvm_syscall_execve(void*, void*, void*);
 long halvm_syscall_exit(long, long, long, long, long, long, long);
-long halvm_syscall_wait4(long, long, long, long, long, long, long);
+long halvm_syscall_wait4(int, int*, int, void*);
 long halvm_syscall_kill(long, long, long, long, long, long, long);
 long halvm_syscall_uname(long, long, long, long, long, long, long);
 long halvm_syscall_semget(long, long, long, long, long, long, long);
 long halvm_syscall_semop(long, long, long, long, long, long, long);
 long halvm_syscall_semctl(long, long, long, long, long, long, long);
-long halvm_syscall_shmdt(long, long, long, long, long, long, long);
-long halvm_syscall_msgget(long, long, long, long, long, long, long);
-long halvm_syscall_msgsnd(long, long, long, long, long, long, long);
-long halvm_syscall_msgrcv(long, long, long, long, long, long, long);
-long halvm_syscall_msgctl(long, long, long, long, long, long, long);
+long halvm_syscall_shmdt(const void *);
+long halvm_syscall_msgget(int, int);
+long halvm_syscall_msgsnd(int, char *, size_t, int);
+long halvm_syscall_msgrcv(int, char *, size_t, long);
+long halvm_syscall_msgctl(int, int, char *);
 long halvm_syscall_fcntl(long, long, long, long, long, long, long);
 long halvm_syscall_flock(long, long, long, long, long, long, long);
 long halvm_syscall_fsync(long, long, long, long, long, long, long);
@@ -109,7 +112,7 @@ long halvm_syscall_getrlimit(long, long, long, long, long, long, long);
 long halvm_syscall_getrusage(long, long, long, long, long, long, long);
 long halvm_syscall_sysinfo(long, long, long, long, long, long, long);
 long halvm_syscall_times(long, long, long, long, long, long, long);
-long halvm_syscall_ptrace(long, long, long, long, long, long, long);
+long halvm_syscall_ptrace(int, int, void*, void*);
 long halvm_syscall_getuid(long, long, long, long, long, long, long);
 long halvm_syscall_syslog(long, long, long, long, long, long, long);
 long halvm_syscall_getgid(long, long, long, long, long, long, long);
@@ -117,33 +120,33 @@ long halvm_syscall_setuid(long, long, long, long, long, long, long);
 long halvm_syscall_setgid(long, long, long, long, long, long, long);
 long halvm_syscall_geteuid(long, long, long, long, long, long, long);
 long halvm_syscall_getegid(long, long, long, long, long, long, long);
-long halvm_syscall_setpgid(long, long, long, long, long, long, long);
+long halvm_syscall_setpgid(int, int);
 long halvm_syscall_getppid(long, long, long, long, long, long, long);
 long halvm_syscall_getpgrp(long, long, long, long, long, long, long);
-long halvm_syscall_setsid(long, long, long, long, long, long, long);
+long halvm_syscall_setsid(void);
 long halvm_syscall_setreuid(long, long, long, long, long, long, long);
 long halvm_syscall_setregid(long, long, long, long, long, long, long);
-long halvm_syscall_getgroups(long, long, long, long, long, long, long);
-long halvm_syscall_setgroups(long, long, long, long, long, long, long);
+long halvm_syscall_getgroups(size_t, int*);
+long halvm_syscall_setgroups(size_t, char*);
 long halvm_syscall_setresuid(long, long, long, long, long, long, long);
 long halvm_syscall_getresuid(long, long, long, long, long, long, long);
 long halvm_syscall_setresgid(long, long, long, long, long, long, long);
 long halvm_syscall_getresgid(long, long, long, long, long, long, long);
 long halvm_syscall_getpgid(long, long, long, long, long, long, long);
-long halvm_syscall_setfsuid(long, long, long, long, long, long, long);
-long halvm_syscall_setfsgid(long, long, long, long, long, long, long);
+long halvm_syscall_setfsuid(int);
+long halvm_syscall_setfsgid(int);
 long halvm_syscall_getsid(long, long, long, long, long, long, long);
-long halvm_syscall_capget(long, long, long, long, long, long, long);
-long halvm_syscall_capset(long, long, long, long, long, long, long);
+long halvm_syscall_capget(void*, void*);
+long halvm_syscall_capset(void*, void*);
 long halvm_syscall_rt_sigpending(long, long, long, long, long, long, long);
 long halvm_syscall_rt_sigtimedwait(long, long, long, long, long, long, long);
 long halvm_syscall_rt_sigqueueinfo(long, long, long, long, long, long, long);
 long halvm_syscall_rt_sigsuspend(long, long, long, long, long, long, long);
 long halvm_syscall_sigaltstack(long, long, long, long, long, long, long);
 long halvm_syscall_utime(long, long, long, long, long, long, long);
-long halvm_syscall_mknod(long, long, long, long, long, long, long);
+long halvm_syscall_mknod(char*, int, int);
 long halvm_syscall_uselib(long, long, long, long, long, long, long);
-long halvm_syscall_personality(long, long, long, long, long, long, long);
+long halvm_syscall_personality(unsigned long);
 long halvm_syscall_ustat(long, long, long, long, long, long, long);
 long halvm_syscall_statfs(long, long, long, long, long, long, long);
 long halvm_syscall_fstatfs(long, long, long, long, long, long, long);
@@ -161,30 +164,31 @@ long halvm_syscall_mlock(long, long, long, long, long, long, long);
 long halvm_syscall_munlock(long, long, long, long, long, long, long);
 long halvm_syscall_mlockall(long, long, long, long, long, long, long);
 long halvm_syscall_munlockall(long, long, long, long, long, long, long);
-long halvm_syscall_vhangup(long, long, long, long, long, long, long);
+long halvm_syscall_vhangup(void);
 long halvm_syscall_modify_ldt(long, long, long, long, long, long, long);
-long halvm_syscall_pivot_root(long, long, long, long, long, long, long);
+long halvm_syscall_pivot_root(const char *, const char *);
 long halvm_syscall__sysctl(long, long, long, long, long, long, long);
-long halvm_syscall_prctl(long, long, long, long, long, long, long);
-long halvm_syscall_arch_prctl(long, long, long, long, long, long, long);
-long halvm_syscall_adjtimex(long, long, long, long, long, long, long);
+long halvm_syscall_prctl(int, unsigned long, unsigned long,
+                              unsigned long, unsigned long);
+long halvm_syscall_arch_prctl(int, long);
+long halvm_syscall_adjtimex(void*);
 long halvm_syscall_setrlimit(long, long, long, long, long, long, long);
-long halvm_syscall_chroot(long, long, long, long, long, long, long);
+long halvm_syscall_chroot(const char *);
 long halvm_syscall_sync(long, long, long, long, long, long, long);
-long halvm_syscall_acct(long, long, long, long, long, long, long);
+long halvm_syscall_acct(const char *);
 long halvm_syscall_settimeofday(long, long, long, long, long, long, long);
 long halvm_syscall_mount(long, long, long, long, long, long, long);
 long halvm_syscall_umount2(long, long, long, long, long, long, long);
-long halvm_syscall_swapon(long, long, long, long, long, long, long);
-long halvm_syscall_swapoff(long, long, long, long, long, long, long);
+long halvm_syscall_swapon(const char *, int);
+long halvm_syscall_swapoff(const char *);
 long halvm_syscall_reboot(long, long, long, long, long, long, long);
 long halvm_syscall_sethostname(long, long, long, long, long, long, long);
 long halvm_syscall_setdomainname(long, long, long, long, long, long, long);
-long halvm_syscall_iopl(long, long, long, long, long, long, long);
+long halvm_syscall_iopl(int);
 long halvm_syscall_ioperm(long, long, long, long, long, long, long);
 long halvm_syscall_create_module(long, long, long, long, long, long, long);
-long halvm_syscall_init_module(long, long, long, long, long, long, long);
-long halvm_syscall_delete_module(long, long, long, long, long, long, long);
+long halvm_syscall_init_module(char*, unsigned long, char*);
+long halvm_syscall_delete_module(void*, int);
 long halvm_syscall_get_kernel_syms(long, long, long, long, long, long, long);
 long halvm_syscall_query_module(long, long, long, long, long, long, long);
 long halvm_syscall_quotactl(long, long, long, long, long, long, long);
@@ -224,7 +228,7 @@ long halvm_syscall_lookup_dcookie(long, long, long, long, long, long, long);
 long halvm_syscall_epoll_create(long, long, long, long, long, long, long);
 long halvm_syscall_epoll_ctl_old(long, long, long, long, long, long, long);
 long halvm_syscall_epoll_wait_old(long, long, long, long, long, long, long);
-long halvm_syscall_remap_file_pages(long, long, long, long, long, long, long);
+long halvm_syscall_remap_file_pages(char*, size_t, int, size_t, int);
 long halvm_syscall_getdents64(long, long, long, long, long, long, long);
 long halvm_syscall_set_tid_address(long, long, long, long, long, long, long);
 long halvm_syscall_restart_syscall(long, long, long, long, long, long, long);
@@ -255,7 +259,7 @@ long halvm_syscall_mq_timedreceive(long, long, long, long, long, long, long);
 long halvm_syscall_mq_notify(long, long, long, long, long, long, long);
 long halvm_syscall_mq_getsetattr(long, long, long, long, long, long, long);
 long halvm_syscall_kexec_load(long, long, long, long, long, long, long);
-long halvm_syscall_waitid(long, long, long, long, long, long, long);
+long halvm_syscall_waitid(int, int, void*, int);
 long halvm_syscall_add_key(long, long, long, long, long, long, long);
 long halvm_syscall_request_key(long, long, long, long, long, long, long);
 long halvm_syscall_keyctl(long, long, long, long, long, long, long);
@@ -280,7 +284,7 @@ long halvm_syscall_fchmodat(long, long, long, long, long, long, long);
 long halvm_syscall_faccessat(long, long, long, long, long, long, long);
 long halvm_syscall_pselect6(long, long, long, long, long, long, long);
 long halvm_syscall_ppoll(long, long, long, long, long, long, long);
-long halvm_syscall_unshare(long, long, long, long, long, long, long);
+long halvm_syscall_unshare(int);
 long halvm_syscall_set_robust_list(long, long, long, long, long, long, long);
 long halvm_syscall_get_robust_list(long, long, long, long, long, long, long);
 long halvm_syscall_splice(long, long, long, long, long, long, long);
@@ -313,13 +317,15 @@ long halvm_syscall_fanotify_mark(long, long, long, long, long, long, long);
 long halvm_syscall_prlimit64(long, long, long, long, long, long, long);
 long halvm_syscall_name_to_handle_at(long, long, long, long, long, long, long);
 long halvm_syscall_open_by_handle_at(long, long, long, long, long, long, long);
-long halvm_syscall_clock_adjtime(long, long, long, long, long, long, long);
+long halvm_syscall_clock_adjtime(int, void *);
 long halvm_syscall_syncfs(long, long, long, long, long, long, long);
 long halvm_syscall_sendmmsg(long, long, long, long, long, long, long);
-long halvm_syscall_setns(long, long, long, long, long, long, long);
+long halvm_syscall_setns(int, int);
 long halvm_syscall_getcpu(long, long, long, long, long, long, long);
-long halvm_syscall_process_vm_readv(long, long, long, long, long, long, long);
-long halvm_syscall_process_vm_writev(long, long, long, long, long, long, long);
+long halvm_syscall_process_vm_readv(int, void*, unsigned long, void*,
+                                    unsigned long, unsigned long);
+long halvm_syscall_process_vm_writev(int, void*, unsigned long, void*,
+                                     unsigned long, unsigned long);
 long halvm_syscall_kcmp(long, long, long, long, long, long, long);
 long halvm_syscall_finit_module(long, long, long, long, long, long, long);
 long halvm_syscall_sched_setattr(long, long, long, long, long, long, long);
@@ -406,11 +412,11 @@ static inline long halvm_syscall(long n,
     case __NR_madvise:
       return halvm_syscall_madvise(n, a1, a2, a3, a4, a5, a6);
     case __NR_shmget:
-      return halvm_syscall_shmget(n, a1, a2, a3, a4, a5, a6);
+      return halvm_syscall_shmget(a1, a2, a3);
     case __NR_shmat:
-      return halvm_syscall_shmat(n, a1, a2, a3, a4, a5, a6);
+      return halvm_syscall_shmat(a1, (void*)a2, a3);
     case __NR_shmctl:
-      return halvm_syscall_shmctl(n, a1, a2, a3, a4, a5, a6);
+      return halvm_syscall_shmctl(a1, a2, (void*)a3);
     case __NR_dup:
       return halvm_syscall_dup(n, a1, a2, a3, a4, a5, a6);
     case __NR_dup2:
@@ -466,11 +472,11 @@ static inline long halvm_syscall(long n,
     case __NR_vfork:
       return halvm_syscall_vfork(n, a1, a2, a3, a4, a5, a6);
     case __NR_execve:
-      return halvm_syscall_execve(n, a1, a2, a3, a4, a5, a6);
+      return halvm_syscall_execve((void*)a1, (void*)a2, (void*)a3);
     case __NR_exit:
       return halvm_syscall_exit(n, a1, a2, a3, a4, a5, a6);
     case __NR_wait4:
-      return halvm_syscall_wait4(n, a1, a2, a3, a4, a5, a6);
+      return halvm_syscall_wait4(a1, (int*)a2, a3, (void*)a4);
     case __NR_kill:
       return halvm_syscall_kill(n, a1, a2, a3, a4, a5, a6);
     case __NR_uname:
@@ -482,15 +488,15 @@ static inline long halvm_syscall(long n,
     case __NR_semctl:
       return halvm_syscall_semctl(n, a1, a2, a3, a4, a5, a6);
     case __NR_shmdt:
-      return halvm_syscall_shmdt(n, a1, a2, a3, a4, a5, a6);
+      return halvm_syscall_shmdt((const void *)a1);
     case __NR_msgget:
-      return halvm_syscall_msgget(n, a1, a2, a3, a4, a5, a6);
+      return halvm_syscall_msgget(a1, a2);
     case __NR_msgsnd:
-      return halvm_syscall_msgsnd(n, a1, a2, a3, a4, a5, a6);
+      return halvm_syscall_msgsnd(a1, (char*)a2, a3, a4);
     case __NR_msgrcv:
-      return halvm_syscall_msgrcv(n, a1, a2, a3, a4, a5, a6);
+      return halvm_syscall_msgrcv(a1, (char*)a2, a3, a4);
     case __NR_msgctl:
-      return halvm_syscall_msgctl(n, a1, a2, a3, a4, a5, a6);
+      return halvm_syscall_msgctl(a1, a2, (char*)a3);
     case __NR_fcntl:
       return halvm_syscall_fcntl(n, a1, a2, a3, a4, a5, a6);
     case __NR_flock:
@@ -550,7 +556,7 @@ static inline long halvm_syscall(long n,
     case __NR_times:
       return halvm_syscall_times(n, a1, a2, a3, a4, a5, a6);
     case __NR_ptrace:
-      return halvm_syscall_ptrace(n, a1, a2, a3, a4, a5, a6);
+      return halvm_syscall_ptrace(a1, a2, (void*)a3, (void*)a4);
     case __NR_getuid:
       return halvm_syscall_getuid(n, a1, a2, a3, a4, a5, a6);
     case __NR_syslog:
@@ -566,21 +572,21 @@ static inline long halvm_syscall(long n,
     case __NR_getegid:
       return halvm_syscall_getegid(n, a1, a2, a3, a4, a5, a6);
     case __NR_setpgid:
-      return halvm_syscall_setpgid(n, a1, a2, a3, a4, a5, a6);
+      return halvm_syscall_setpgid(a1, a2);
     case __NR_getppid:
       return halvm_syscall_getppid(n, a1, a2, a3, a4, a5, a6);
     case __NR_getpgrp:
       return halvm_syscall_getpgrp(n, a1, a2, a3, a4, a5, a6);
     case __NR_setsid:
-      return halvm_syscall_setsid(n, a1, a2, a3, a4, a5, a6);
+      return halvm_syscall_setsid();
     case __NR_setreuid:
       return halvm_syscall_setreuid(n, a1, a2, a3, a4, a5, a6);
     case __NR_setregid:
       return halvm_syscall_setregid(n, a1, a2, a3, a4, a5, a6);
     case __NR_getgroups:
-      return halvm_syscall_getgroups(n, a1, a2, a3, a4, a5, a6);
+      return halvm_syscall_getgroups(a1, (void*)a2);
     case __NR_setgroups:
-      return halvm_syscall_setgroups(n, a1, a2, a3, a4, a5, a6);
+      return halvm_syscall_setgroups(a1, (char*)a2);
     case __NR_setresuid:
       return halvm_syscall_setresuid(n, a1, a2, a3, a4, a5, a6);
     case __NR_getresuid:
@@ -592,15 +598,15 @@ static inline long halvm_syscall(long n,
     case __NR_getpgid:
       return halvm_syscall_getpgid(n, a1, a2, a3, a4, a5, a6);
     case __NR_setfsuid:
-      return halvm_syscall_setfsuid(n, a1, a2, a3, a4, a5, a6);
+      return halvm_syscall_setfsuid(a1);
     case __NR_setfsgid:
-      return halvm_syscall_setfsgid(n, a1, a2, a3, a4, a5, a6);
+      return halvm_syscall_setfsgid(a1);
     case __NR_getsid:
       return halvm_syscall_getsid(n, a1, a2, a3, a4, a5, a6);
     case __NR_capget:
-      return halvm_syscall_capget(n, a1, a2, a3, a4, a5, a6);
+      return halvm_syscall_capget((void*)a1, (void*)a2);
     case __NR_capset:
-      return halvm_syscall_capset(n, a1, a2, a3, a4, a5, a6);
+      return halvm_syscall_capset((void*)a1, (void*)a2);
     case __NR_rt_sigpending:
       return halvm_syscall_rt_sigpending(n, a1, a2, a3, a4, a5, a6);
     case __NR_rt_sigtimedwait:
@@ -614,11 +620,11 @@ static inline long halvm_syscall(long n,
     case __NR_utime:
       return halvm_syscall_utime(n, a1, a2, a3, a4, a5, a6);
     case __NR_mknod:
-      return halvm_syscall_mknod(n, a1, a2, a3, a4, a5, a6);
+      return halvm_syscall_mknod((char*)a1, a2, a3);
     case __NR_uselib:
       return halvm_syscall_uselib(n, a1, a2, a3, a4, a5, a6);
     case __NR_personality:
-      return halvm_syscall_personality(n, a1, a2, a3, a4, a5, a6);
+      return halvm_syscall_personality(a1);
     case __NR_ustat:
       return halvm_syscall_ustat(n, a1, a2, a3, a4, a5, a6);
     case __NR_statfs:
@@ -654,27 +660,27 @@ static inline long halvm_syscall(long n,
     case __NR_munlockall:
       return halvm_syscall_munlockall(n, a1, a2, a3, a4, a5, a6);
     case __NR_vhangup:
-      return halvm_syscall_vhangup(n, a1, a2, a3, a4, a5, a6);
+      return halvm_syscall_vhangup();
     case __NR_modify_ldt:
       return halvm_syscall_modify_ldt(n, a1, a2, a3, a4, a5, a6);
     case __NR_pivot_root:
-      return halvm_syscall_pivot_root(n, a1, a2, a3, a4, a5, a6);
+      return halvm_syscall_pivot_root((const char *)a1, (const char *)a2);
     case __NR__sysctl:
       return halvm_syscall__sysctl(n, a1, a2, a3, a4, a5, a6);
     case __NR_prctl:
-      return halvm_syscall_prctl(n, a1, a2, a3, a4, a5, a6);
+      return halvm_syscall_prctl(a1, a2, a3, a4, a5);
     case __NR_arch_prctl:
-      return halvm_syscall_arch_prctl(n, a1, a2, a3, a4, a5, a6);
+      return halvm_syscall_arch_prctl(a1, a2);
     case __NR_adjtimex:
-      return halvm_syscall_adjtimex(n, a1, a2, a3, a4, a5, a6);
+      return halvm_syscall_adjtimex((void*)a1);
     case __NR_setrlimit:
       return halvm_syscall_setrlimit(n, a1, a2, a3, a4, a5, a6);
     case __NR_chroot:
-      return halvm_syscall_chroot(n, a1, a2, a3, a4, a5, a6);
+      return halvm_syscall_chroot((const char *)a1);
     case __NR_sync:
       return halvm_syscall_sync(n, a1, a2, a3, a4, a5, a6);
     case __NR_acct:
-      return halvm_syscall_acct(n, a1, a2, a3, a4, a5, a6);
+      return halvm_syscall_acct((const char*)a1);
     case __NR_settimeofday:
       return halvm_syscall_settimeofday(n, a1, a2, a3, a4, a5, a6);
     case __NR_mount:
@@ -682,9 +688,9 @@ static inline long halvm_syscall(long n,
     case __NR_umount2:
       return halvm_syscall_umount2(n, a1, a2, a3, a4, a5, a6);
     case __NR_swapon:
-      return halvm_syscall_swapon(n, a1, a2, a3, a4, a5, a6);
+      return halvm_syscall_swapon((const char *)a1, a2);
     case __NR_swapoff:
-      return halvm_syscall_swapoff(n, a1, a2, a3, a4, a5, a6);
+      return halvm_syscall_swapoff((const char *)a1);
     case __NR_reboot:
       return halvm_syscall_reboot(n, a1, a2, a3, a4, a5, a6);
     case __NR_sethostname:
@@ -692,15 +698,15 @@ static inline long halvm_syscall(long n,
     case __NR_setdomainname:
       return halvm_syscall_setdomainname(n, a1, a2, a3, a4, a5, a6);
     case __NR_iopl:
-      return halvm_syscall_iopl(n, a1, a2, a3, a4, a5, a6);
+      return halvm_syscall_iopl(a1);
     case __NR_ioperm:
       return halvm_syscall_ioperm(n, a1, a2, a3, a4, a5, a6);
     case __NR_create_module:
       return halvm_syscall_create_module(n, a1, a2, a3, a4, a5, a6);
     case __NR_init_module:
-      return halvm_syscall_init_module(n, a1, a2, a3, a4, a5, a6);
+      return halvm_syscall_init_module((char*)a1, a2, (char*)a3);
     case __NR_delete_module:
-      return halvm_syscall_delete_module(n, a1, a2, a3, a4, a5, a6);
+      return halvm_syscall_delete_module((void*)a1, a2);
     case __NR_get_kernel_syms:
       return halvm_syscall_get_kernel_syms(n, a1, a2, a3, a4, a5, a6);
     case __NR_query_module:
@@ -780,7 +786,7 @@ static inline long halvm_syscall(long n,
     case __NR_epoll_wait_old:
       return halvm_syscall_epoll_wait_old(n, a1, a2, a3, a4, a5, a6);
     case __NR_remap_file_pages:
-      return halvm_syscall_remap_file_pages(n, a1, a2, a3, a4, a5, a6);
+      return halvm_syscall_remap_file_pages((char*)a1, a2, a3, a4, a5);
     case __NR_getdents64:
       return halvm_syscall_getdents64(n, a1, a2, a3, a4, a5, a6);
     case __NR_set_tid_address:
@@ -842,7 +848,7 @@ static inline long halvm_syscall(long n,
     case __NR_kexec_load:
       return halvm_syscall_kexec_load(n, a1, a2, a3, a4, a5, a6);
     case __NR_waitid:
-      return halvm_syscall_waitid(n, a1, a2, a3, a4, a5, a6);
+      return halvm_syscall_waitid(a1, a2, (void*)a3, a4);
     case __NR_add_key:
       return halvm_syscall_add_key(n, a1, a2, a3, a4, a5, a6);
     case __NR_request_key:
@@ -892,7 +898,7 @@ static inline long halvm_syscall(long n,
     case __NR_ppoll:
       return halvm_syscall_ppoll(n, a1, a2, a3, a4, a5, a6);
     case __NR_unshare:
-      return halvm_syscall_unshare(n, a1, a2, a3, a4, a5, a6);
+      return halvm_syscall_unshare(a1);
     case __NR_set_robust_list:
       return halvm_syscall_set_robust_list(n, a1, a2, a3, a4, a5, a6);
     case __NR_get_robust_list:
@@ -958,19 +964,19 @@ static inline long halvm_syscall(long n,
     case __NR_open_by_handle_at:
       return halvm_syscall_open_by_handle_at(n, a1, a2, a3, a4, a5, a6);
     case __NR_clock_adjtime:
-      return halvm_syscall_clock_adjtime(n, a1, a2, a3, a4, a5, a6);
+      return halvm_syscall_clock_adjtime(a1, (void*)a2);
     case __NR_syncfs:
       return halvm_syscall_syncfs(n, a1, a2, a3, a4, a5, a6);
     case __NR_sendmmsg:
       return halvm_syscall_sendmmsg(n, a1, a2, a3, a4, a5, a6);
     case __NR_setns:
-      return halvm_syscall_setns(n, a1, a2, a3, a4, a5, a6);
+      return halvm_syscall_setns(a1, a2);
     case __NR_getcpu:
       return halvm_syscall_getcpu(n, a1, a2, a3, a4, a5, a6);
     case __NR_process_vm_readv:
-      return halvm_syscall_process_vm_readv(n, a1, a2, a3, a4, a5, a6);
+      return halvm_syscall_process_vm_readv(a1,(void*)a2,a3,(void*)a4,a5,a6);
     case __NR_process_vm_writev:
-      return halvm_syscall_process_vm_writev(n, a1, a2, a3, a4, a5, a6);
+      return halvm_syscall_process_vm_writev(a1,(void*)a2,a3,(void*)a4,a5,a6);
     case __NR_kcmp:
       return halvm_syscall_kcmp(n, a1, a2, a3, a4, a5, a6);
     case __NR_finit_module:
