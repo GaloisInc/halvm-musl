@@ -19,3 +19,5 @@ src/string/halvm
 arch/halvm/bits
 arch/halvm/reloc.h
 arch/halvm/atomic_arch.h
+arch/x86_64/bits/resource.h
+arch/x86_64/bits/termios.h
