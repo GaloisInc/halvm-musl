@@ -13,11 +13,11 @@
 
 long halvm_syscall_read(int, void*, size_t);
 long halvm_syscall_write(int, void*, size_t);
-long halvm_syscall_open(long, long, long, long, long, long, long);
-long halvm_syscall_close(long, long, long, long, long, long, long);
-long halvm_syscall_stat(long, long, long, long, long, long, long);
-long halvm_syscall_fstat(long, long, long, long, long, long, long);
-long halvm_syscall_lstat(long, long, long, long, long, long, long);
+long halvm_syscall_open(const char *, int, int);
+long halvm_syscall_close(int);
+long halvm_syscall_stat(const char *, void*);
+long halvm_syscall_fstat(int, void*);
+long halvm_syscall_lstat(const char *, void*);
 long halvm_syscall_poll(long, long, long, long, long, long, long);
 long halvm_syscall_lseek(long, long, long, long, long, long, long);
 long halvm_syscall_mmap(long, long, long, long, long, long, long);
@@ -358,15 +358,15 @@ static inline long halvm_syscall(long n,
     case __NR_write:
       return halvm_syscall_write(a1, a2, a3);
     case __NR_open:
-      return halvm_syscall_open(n, a1, a2, a3, a4, a5, a6);
+      return halvm_syscall_open(a1, a2, a3);
     case __NR_close:
-      return halvm_syscall_close(n, a1, a2, a3, a4, a5, a6);
+      return halvm_syscall_close(a1);
     case __NR_stat:
-      return halvm_syscall_stat(n, a1, a2, a3, a4, a5, a6);
+      return halvm_syscall_stat((const char *)a1, (void*)a2);
     case __NR_fstat:
-      return halvm_syscall_fstat(n, a1, a2, a3, a4, a5, a6);
+      return halvm_syscall_fstat(a1, (void*)a2);
     case __NR_lstat:
-      return halvm_syscall_lstat(n, a1, a2, a3, a4, a5, a6);
+      return halvm_syscall_lstat((const char *)a1, (void*)a2);
     case __NR_poll:
       return halvm_syscall_poll(n, a1, a2, a3, a4, a5, a6);
     case __NR_lseek:
